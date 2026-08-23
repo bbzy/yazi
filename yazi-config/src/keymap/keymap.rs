@@ -12,6 +12,7 @@ use crate::keymap::ChordArc;
 #[derive(Deserialize, DeserializeOver, DeserializeOver1)]
 pub struct Keymap {
 	mgr:     KeymapSection,
+	preview: KeymapSection,
 	tasks:   KeymapSection,
 	spot:    KeymapSection,
 	pick:    KeymapSection,
@@ -35,6 +36,7 @@ impl Keymap {
 		Some(match layer {
 			L::Null | L::App => None?,
 			L::Mgr => &self.mgr,
+			L::Preview => &self.preview,
 			L::Tasks => &self.tasks,
 			L::Spot => &self.spot,
 			L::Pick => &self.pick,

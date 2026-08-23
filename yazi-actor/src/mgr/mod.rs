@@ -20,6 +20,7 @@ yazi_macro::mod_flat!(
 	find_do
 	follow
 	forward
+	fullscreen
 	hardlink
 	hidden
 	hover

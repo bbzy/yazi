@@ -34,6 +34,7 @@ pub enum Layer {
 	Cmp,
 	Which,
 	Notify,
+	Preview,
 }
 
 impl Layer {

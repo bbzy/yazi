@@ -66,6 +66,8 @@ impl Core {
 			Layer::Spot
 		} else if self.tasks.visible {
 			Layer::Tasks
+		} else if self.active().preview.fullscreen {
+			Layer::Preview
 		} else {
 			Layer::Mgr
 		}

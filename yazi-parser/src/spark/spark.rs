@@ -56,6 +56,7 @@ pub enum Spark<'a> {
 	FindDo(crate::mgr::FindDoForm),
 	Follow(crate::VoidForm),
 	Forward(crate::VoidForm),
+	Fullscreen(crate::app::ReflowForm),
 	Hardlink(crate::mgr::HardlinkForm),
 	Hidden(crate::mgr::HiddenForm),
 	Hover(crate::mgr::HoverForm),
@@ -148,6 +149,9 @@ pub enum Spark<'a> {
 	SpotClose(crate::VoidForm),
 	SpotCopy(crate::spot::CopyForm),
 	SpotSwipe(crate::ArrowForm),
+
+	// Preview
+	PreviewSeek(crate::ArrowForm),
 
 	// Tasks
 	TasksArrow(crate::ArrowForm),
@@ -260,6 +264,7 @@ impl<'a> IntoLua for Spark<'a> {
 			Self::FindDo(b) => b.into_lua(lua),
 			Self::Follow(b) => b.into_lua(lua),
 			Self::Forward(b) => b.into_lua(lua),
+			Self::Fullscreen(b) => b.into_lua(lua),
 			Self::Hardlink(b) => b.into_lua(lua),
 			Self::Hidden(b) => b.into_lua(lua),
 			Self::Hover(b) => b.into_lua(lua),
@@ -353,6 +358,9 @@ impl<'a> IntoLua for Spark<'a> {
 			Self::SpotCopy(b) => b.into_lua(lua),
 			Self::SpotSwipe(b) => b.into_lua(lua),
 
+			// Preview
+			Self::PreviewSeek(b) => b.into_lua(lua),
+
 			// Tasks
 			Self::TasksArrow(b) => b.into_lua(lua),
 			Self::TasksCancel(b) => b.into_lua(lua),
@@ -397,7 +405,7 @@ try_from_spark!(
 );
 
 // App
-try_from_spark!(crate::ArrowForm, mgr:arrow, mgr:tab_swap);
+try_from_spark!(crate::ArrowForm, mgr:arrow, mgr:tab_swap, preview:seek);
 try_from_spark!(crate::app::ClipboardForm, app:clipboard);
 try_from_spark!(crate::app::DeprecateForm, app:deprecate);
 try_from_spark!(crate::app::DndForm, app:dnd);
@@ -407,7 +415,7 @@ try_from_spark!(crate::app::PluginForm, app:plugin, app:plugin_do);
 try_from_spark!(crate::app::PassthroughForm, app:passthrough);
 try_from_spark!(crate::app::QuitForm, app:quit, mgr:quit);
 try_from_spark!(yazi_term::event::Report, app:report);
-try_from_spark!(crate::app::ReflowForm, app:reflow, app:resize, app:resume);
+try_from_spark!(crate::app::ReflowForm, app:reflow, app:resize, app:resume, mgr:fullscreen);
 try_from_spark!(crate::app::StopForm, app:stop);
 try_from_spark!(crate::app::TitleForm, app:title);
 try_from_spark!(crate::app::UpdateProgressForm, app:update_progress);

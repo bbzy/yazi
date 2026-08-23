@@ -1,6 +1,6 @@
 use anyhow::Result;
 use mlua::{LuaString, Value};
-use ratatui_core::layout::Position;
+use ratatui_core::layout::{Position, Rect};
 use yazi_actor::lives::Lives;
 use yazi_config::LAYOUT;
 use yazi_macro::{error, render, succ};
@@ -18,10 +18,11 @@ impl Actor for Reflow {
 
 	fn act(cx: &mut Ctx, form: Self::Form) -> Result<Data> {
 		let Some(size) = cx.term.as_ref().and_then(|t| t.size().ok()) else { succ!() };
+		let area: Rect = (Position::ORIGIN, size).into();
 		let mut layout = LAYOUT.get();
 
 		let result = Lives::scope(cx.core, |_| {
-			let comps = (form.reflow)((Position::ORIGIN, size).into())?;
+			let comps = (form.reflow)(area)?;
 
 			for v in comps.sequence_values::<Value>() {
 				let Value::Table(t) = v? else {
@@ -39,6 +40,9 @@ impl Actor for Reflow {
 			}
 			Ok(())
 		});
+		if cx.active().preview.fullscreen {
+			layout.preview = area;
+		}
 
 		if layout != LAYOUT.get() {
 			LAYOUT.set(layout);

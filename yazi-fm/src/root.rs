@@ -1,5 +1,6 @@
 use mlua::{ObjectLike, Table};
 use ratatui_core::{buffer::Buffer, layout::Rect, widgets::Widget};
+use yazi_config::{LAYOUT, THEME};
 use yazi_core::Core;
 use yazi_macro::error;
 use yazi_plugin::LUA;
@@ -23,7 +24,14 @@ impl<'a> Root<'a> {
 
 impl Widget for Root<'_> {
 	fn render(self, area: Rect, buf: &mut Buffer) {
-		if let Err(e) = Renderer::new(self.core, "Root").render(area, buf) {
+		if self.core.active().preview.fullscreen {
+			let mut layout = LAYOUT.get();
+			layout.preview = area;
+			LAYOUT.set(layout);
+
+			ratatui_widgets::clear::Clear.render(area, buf);
+			buf.set_style(area, THEME.app.overall.get());
+		} else if let Err(e) = Renderer::new(self.core, "Root").render(area, buf) {
 			error!("Failed to redraw the `Root` component:\n{e}");
 		}
 

@@ -19,6 +19,7 @@ impl<'a> Executor<'a> {
 			Layer::Null => self.null(action),
 			Layer::App => self.app(action),
 			Layer::Mgr => self.mgr(action),
+			Layer::Preview => self.preview(action),
 			Layer::Tasks => self.tasks(action),
 			Layer::Spot => self.spot(action),
 			Layer::Pick => self.pick(action),
@@ -154,11 +155,31 @@ impl<'a> Executor<'a> {
 		on!(displace_do);
 
 		match action.name.as_ref() {
+			// Preview
+			"fullscreen" => act!(mgr:fullscreen, cx, crate::Root::reflow as fn(_) -> _),
 			// Help
 			"help" => act!(help:toggle, cx, Layer::Mgr),
 			// Plugin
 			"plugin" => act!(app:plugin, cx, action),
 			// Lua
+			"lua" => act!(app:lua, cx, action),
+			_ => succ!(),
+		}
+	}
+
+	fn preview(&mut self, action: ActionCow) -> Result<Data> {
+		let cx = &mut Ctx::new(&action, &mut self.app.core, &mut self.app.term)?;
+
+		if action.name == "seek" {
+			return act!(preview:seek, cx, action);
+		}
+
+		match action.name.as_ref() {
+			"close" | "fullscreen" => {
+				act!(mgr:fullscreen, cx, crate::Root::reflow as fn(_) -> _)
+			}
+			"help" => act!(help:toggle, cx, Layer::Preview),
+			"plugin" => act!(app:plugin, cx, action),
 			"lua" => act!(app:lua, cx, action),
 			_ => succ!(),
 		}

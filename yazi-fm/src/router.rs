@@ -33,7 +33,7 @@ impl<'a> Router<'a> {
 		let key = Key::from(key);
 		Ok(match layer {
 			L::Null | L::App | L::Notify => unreachable!(),
-			L::Mgr | L::Tasks | L::Spot | L::Pick | L::Input | L::Confirm => {
+			L::Mgr | L::Preview | L::Tasks | L::Spot | L::Pick | L::Input | L::Confirm => {
 				self.matches(layer, layer, key)
 			}
 			L::Help => self.matches(L::Help, L::Help, key) || self.matches(L::Input, L::Help, key),

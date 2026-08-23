@@ -14,6 +14,7 @@ pub struct Preview {
 	pub lock:        Option<PreviewLock>,
 	pub skip:        usize,
 	pub folder_lock: Option<UrlBuf>,
+	pub fullscreen:  bool,
 
 	handle: Option<JoinHandle<()>>,
 	scope:  Scope,

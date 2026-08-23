@@ -85,7 +85,8 @@ keymap = [
 	{ on = "s",         run = "search --via=fd",             desc = "Search files by name via fd" },
 	{ on = "S",         run = "search --via=rg",             desc = "Search files by content via ripgrep" },
 	{ on = "<C-s>",     run = "escape --search",             desc = "Cancel the ongoing search" },
-	{ on = "z",         run = "plugin fzf",                  desc = "Jump to a file/directory via fzf" },
+	{ on = "z",         run = "fullscreen",                  desc = "Open the full-screen preview" },
+	{ on = "F",         run = "plugin fzf",                  desc = "Jump to a file/directory via fzf" },
 	{ on = "Z",         run = "plugin zoxide",               desc = "Jump to a directory via zoxide" },
 
 	# Linemode
@@ -158,6 +159,44 @@ keymap = [
 
 	# Tasks
 	{ on = "w", run = "tasks:show", desc = "Show task manager" },
+
+	# Help
+	{ on = "~",    run = "help", desc = "Open help" },
+	{ on = "<F1>", run = "help", desc = "Open help" },
+]
+
+[preview]
+
+keymap = [
+	{ on = "<Esc>", run = "close", desc = "Close the full-screen preview" },
+	{ on = "<C-[>", run = "close", desc = "Close the full-screen preview" },
+	{ on = "<C-c>", run = "close", desc = "Close the full-screen preview" },
+	{ on = "q",     run = "close", desc = "Close the full-screen preview" },
+
+	# Line-wise movement
+	{ on = "k", run = "seek -1", desc = "Move up one line" },
+	{ on = "j", run = "seek 1",  desc = "Move down one line" },
+
+	{ on = "<Up>",   run = "seek -1", desc = "Move up one line" },
+	{ on = "<Down>", run = "seek 1",  desc = "Move down one line" },
+
+	# Vim-like movement
+	{ on = [ "g", "g" ], run = "seek top", desc = "Go to the top" },
+	{ on = "G",          run = "seek bot", desc = "Go to the bottom" },
+	{ on = "<Home>",     run = "seek top", desc = "Go to the top" },
+	{ on = "<End>",      run = "seek bot", desc = "Go to the bottom" },
+
+	{ on = "u",     run = "seek -50%",  desc = "Move up half a page" },
+	{ on = "d",     run = "seek 50%",   desc = "Move down half a page" },
+	{ on = "p",     run = "seek -100%", desc = "Move up one page" },
+	{ on = "n",     run = "seek 100%",  desc = "Move down one page" },
+	{ on = "<C-b>", run = "seek -100%", desc = "Move up one page" },
+	{ on = "<C-f>", run = "seek 100%",  desc = "Move down one page" },
+
+	{ on = "<S-PageUp>",   run = "seek -50%",  desc = "Move up half a page" },
+	{ on = "<S-PageDown>", run = "seek 50%",   desc = "Move down half a page" },
+	{ on = "<PageUp>",     run = "seek -100%", desc = "Move up one page" },
+	{ on = "<PageDown>",   run = "seek 100%",  desc = "Move down one page" },
 
 	# Help
 	{ on = "~",    run = "help", desc = "Open help" },
